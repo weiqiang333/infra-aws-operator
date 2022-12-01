@@ -17,5 +17,6 @@ func Job() {
 	cron1 := cron.New(cron.WithLocation(location), cron.WithSeconds())
 	cron1.Start()
 
-	cron1.AddJob("@every 20s", get_billcost.NewBillcostJob())
+	// Aws Cost Explorer 一个请求，一美分，你准备好了嘛？
+	cron1.AddJob("01 08 * * *", get_billcost.NewBillcostJob())
 }
