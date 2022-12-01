@@ -15,3 +15,8 @@ auth:
   basic:
     admin: admin333
     weiqiang: weiqiang
+
+aws:
+  credentials:
+    cost-bill-name: cost-bill
+    

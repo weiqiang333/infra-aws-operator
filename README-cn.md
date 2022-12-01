@@ -1,17 +1,17 @@
 # AWS Operator
-Infra AWS Operator. It manages and uses AWS API resources. It provides easy resource statistics while maintaining high performance of resource calls.
+基础设施 AWS 运营商。 它管理和使用 AWS API 资源。 它提供简单的资源统计，同时保持资源调用的高性能。
 
-[中文](README-cn.md)
+[English](README.md)
 
-## goals and status
-- The main goal of this operator is to：
+## 目标和状态
+- 该运算符的主要目标是：
 ```text
-    1. Get aws service bill easily
-    2. devops friendly (monitoring, availability, scalability and backups)
-    3. Create and manage AWS Service resources
+    1. 轻松的获取 aws 服务账单
+    2. 对 devops 友好（监控、可用性、可扩展性和备份）
+    3. 创建及管理 AWS Service 资源
 ```
 
-## Architecture design
+## 架构设计
 - default URL path
 ```text
 /check
@@ -25,7 +25,7 @@ Infra AWS Operator. It manages and uses AWS API resources. It provides easy reso
     BasicAuth page
 ```
 
-## use it
+## 使用它
 - build package
 ```
 # 执行 go build, 并制作 images
