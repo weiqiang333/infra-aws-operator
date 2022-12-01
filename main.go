@@ -3,6 +3,7 @@ package main
 
 import (
 	"fmt"
+
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -11,8 +12,9 @@ import (
 	"github.com/spf13/pflag"
 	"github.com/spf13/viper"
 
-	"go-web-init-template/internal/api"
-	"go-web-init-template/internal/metrics"
+	"infra-aws-operator/internal/api"
+	"infra-aws-operator/internal/metrics"
+	"infra-aws-operator/pkg/job"
 )
 
 func init() {
@@ -25,6 +27,7 @@ func main() {
 	loadConfig()
 
 	prometheus.MustRegister(metrics.NewExporter())
+	job.Job()
 
 	listenAddress := viper.GetString("listen_address")
 	router := engine()
