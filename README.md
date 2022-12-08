@@ -29,10 +29,10 @@ Infra AWS Operator. It manages and uses AWS API resources. It provides easy reso
 - build package
 ```
 # 执行 go build, 并制作 images
-bash cmd/linux_build.sh v0.2
+bash cmd/linux_build.sh v0.4
 ```
 
-- deploy
+- kubernetes deploy
 ```
 kubectl create namespace go
 kubectl -n go create configmap go-default-service-configmap --from-file=configs/config.yaml

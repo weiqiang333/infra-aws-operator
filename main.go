@@ -3,34 +3,65 @@ package main
 
 import (
 	"fmt"
-
 	"net/http"
+	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"github.com/spf13/pflag"
 	"github.com/spf13/viper"
+	"gorm.io/gorm"
 
 	"infra-aws-operator/internal/api"
+	"infra-aws-operator/internal/databases"
+	"infra-aws-operator/internal/databases/infrastructure"
 	"infra-aws-operator/internal/metrics"
 	"infra-aws-operator/pkg/job"
 )
 
 func init() {
 	pflag.String("configFile", "configs/config.yaml", "go config file")
-	pflag.String("listen_address", "0.0.0.0:8080", "server listen address.")
-	pflag.ErrHelp.Error()
+	pflag.String("listen_address", "0.0.0.0:8088", "server listen address.")
+	pflag.String("databases_type", "mysql", "databases sqlite/mysql")
 }
 
 func main() {
 	loadConfig()
 
-	prometheus.MustRegister(metrics.NewExporter())
-	job.Job()
+	// conn db
+	dbCoon := databases.NewDBConns()
+	dbType := viper.GetString("databases_type")
+	//if dbType == "sqlite" {
+	//dbFile := viper.GetString("databases.sqlite.dbfile")
+	//connmaxlifetime := time.Duration(viper.GetInt64("databases.sqlite.connmaxlifetime"))
+	//maxopenconns := viper.GetInt("databases.sqlite.maxopenconns")
+	//if err := dbCoon.ConnsSqlite(dbFile, connmaxlifetime, maxopenconns); err != nil {
+	//	panic(err)
+	//}
+	//}
+	if dbType == "mysql" {
+		user := viper.GetString("databases.mysql.crud.user")
+		password := viper.GetString("databases.mysql.crud.password")
+		address := viper.GetString("databases.mysql.crud.address")
+		dbName := viper.GetString("databases.mysql.crud.dbName")
+		connmaxlifetime := time.Duration(viper.GetInt64("databases.sqlite.connmaxlifetime"))
+		maxopenconns := viper.GetInt("databases.sqlite.maxopenconns")
+		if err := dbCoon.ConnsMysql(user, password, address, dbName, connmaxlifetime, maxopenconns); err != nil {
+			panic(err)
+		}
+	}
+	if err := infrastructure.CreateTables(dbCoon.DBCRUD); err != nil {
+		panic(err)
+	}
+
+	// job
+	job.Job(dbCoon.DBCRUD)
+
+	prometheus.MustRegister(metrics.NewExporter(dbCoon.DBCRUD))
 
 	listenAddress := viper.GetString("listen_address")
-	router := engine()
+	router := engine(dbCoon.DBCRUD)
 	err := router.Run(listenAddress) // listen and serve on 0.0.0.0:8080
 	if err != nil {
 		panic(fmt.Errorf("Failed web server: %s ", err.Error()))
@@ -38,7 +69,7 @@ func main() {
 }
 
 // gin web run engine
-func engine() *gin.Engine {
+func engine(db *gorm.DB) *gin.Engine {
 	router := gin.Default()
 
 	router.LoadHTMLGlob("web/templates/*")
@@ -89,7 +120,7 @@ func reloadConfig(c *gin.Context) {
 		c.String(http.StatusOK, fmt.Sprintf("Failed reload config file: %s, err: %s", viper.ConfigFileUsed(), err.Error()))
 		return
 	}
-	fmt.Println(fmt.Sprintf("reload config file: %s", viper.ConfigFileUsed()))
+	fmt.Println("reload config file: ", viper.ConfigFileUsed())
 	c.String(http.StatusOK, fmt.Sprintf("reload config file: %s", viper.ConfigFileUsed()))
 }
 
