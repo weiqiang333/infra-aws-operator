@@ -17,4 +17,5 @@ vendor/
 
 .idea/
 *.tar.gz
-build/go-default-service
+infra-aws-operator
+configs/production/

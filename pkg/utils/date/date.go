@@ -1,6 +1,8 @@
 package date
 
-import "time"
+import (
+	"time"
+)
 
 // GetNowDay 返回当前时间的日期 固定格式 2006-01-02
 func GetNowDay() string {
@@ -18,4 +20,17 @@ func GetLastMonth1stDay() string {
 	layout := "2006-01"
 	t, _ := time.Parse(layout, LastMonth)
 	return t.Format("2006-01-02")
+}
+
+// GetDateRange 获取日期范围日期 list. req: ("2022-10-02", "2022-12-02")
+func GetDateRange(dateStart, dateEnd string) []string {
+	var dateList []string
+	layout := "2006-01-02"
+	start, _ := time.Parse(layout, dateStart)
+	end, _ := time.Parse(layout, dateEnd)
+	for d := start; d.After(end) == false; d = d.AddDate(0, 0, 1) {
+		d.Format("2006-01-02")
+		dateList = append(dateList, d.Format("2006-01-02"))
+	}
+	return dateList
 }

@@ -23,41 +23,14 @@ func NewBillcost(sess *session.Session) *Billcost {
 	}
 }
 
-// GetDailyData 获取之前30天的数据; 聚合以天, 类型为 Service
-func (b *Billcost) GetDailyData() error {
+// GetDailyData 获取之前30天的数据; 聚合以 ${granularity}, 类型为 Service
+func (b *Billcost) GetDailyData(granularity string) error {
 	cli := costexplorer.New(b.Sess)
 
 	startTime := date.GetLastMonth1stDay()
 	endTime := date.GetNowDay()
 	cu, err := cli.GetCostAndUsage(&costexplorer.GetCostAndUsageInput{
-		Granularity: aws.String("DAILY"),
-		Metrics:     aws.StringSlice([]string{"BlendedCost"}),
-		TimePeriod: &costexplorer.DateInterval{
-			Start: aws.String(startTime),
-			End:   aws.String(endTime),
-		},
-		GroupBy: []*costexplorer.GroupDefinition{&costexplorer.GroupDefinition{
-			Type: aws.String("DIMENSION"),
-			Key:  aws.String("SERVICE"),
-		}},
-	})
-	if err != nil {
-		msg := fmt.Sprintf("Failed aws api GetDailyData err: %s", err.Error())
-		log.Println(msg)
-		return err
-	}
-	b.Res = cu.ResultsByTime
-	return nil
-}
-
-// GetMonthlyData 获取之前30天的数据; 聚合以月, 类型为 Service
-func (b *Billcost) GetMonthlyData() error {
-	cli := costexplorer.New(b.Sess)
-
-	startTime := date.GetLastMonth1stDay()
-	endTime := date.GetNowDay()
-	cu, err := cli.GetCostAndUsage(&costexplorer.GetCostAndUsageInput{
-		Granularity: aws.String("MONTHLY"),
+		Granularity: aws.String(granularity),
 		Metrics:     aws.StringSlice([]string{"BlendedCost"}),
 		TimePeriod: &costexplorer.DateInterval{
 			Start: aws.String(startTime),

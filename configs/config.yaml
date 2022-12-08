@@ -19,4 +19,30 @@ auth:
 aws:
   credentials:
     cost-bill-name: cost-bill
-    
+
+databases:
+  mysql:
+    crud:
+      address: 192.168.31.249
+      user: admin
+      password: admin
+      dbname: infrastructure
+    connmaxlifetime: 10
+    maxopenconns: 100
+  sqlite:
+    dbfile: infra.db
+    connmaxlifetime: 10
+    maxopenconns: 100
+
+telegram:
+  cost_call:
+    bot_token: xxx
+    chat_id: xxx
+    call_user: "@weiqiang333"
+
+# 定时任务, 执行周期
+job:
+  # 获取账单，进行数据处理
+  get_billcost: "01 01 01 * * *"
+  # 账单提醒. -> telegram. 支持 off. cost_call: off
+  cost_call: "01 01 09 * * *"

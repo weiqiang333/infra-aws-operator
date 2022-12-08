@@ -1,0 +1,16 @@
+[Unit]
+Description=infra-aws-operator Service
+After=network.target
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+WorkingDirectory=/usr/local/infra-aws-operator/
+ExecStart=/usr/local/infra-aws-operator/infra-aws-operator --configFile /usr/local/infra-aws-operator/configs/config.yaml
+Restart=on-failure
+RestartSec=5
+LimitNOFILE=65536
+
+[Install]
+WantedBy=multi-user.target

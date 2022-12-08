@@ -29,14 +29,27 @@
 - build package
 ```
 # 执行 go build, 并制作 images
-bash cmd/linux_build.sh v0.2
+bash cmd/linux_build.sh v0.4
 ```
 
-- deploy
+- kubernetes deploy
 ```
 kubectl create namespace go
 kubectl -n go create configmap go-default-service-configmap --from-file=configs/config.yaml
 kubectl apply -f build/go_default_service-deploy.yaml
+```
+- native deploy (systemd)
+```text
+version=v0.4
+basedir=/usr/local/infra-aws-operator
+mkdir -p ${basedir}
+
+tar -zxf infra-aws-operator-linux-amd64-v0.4.tar.gz -C ${basedir}
+chmod +x ${basedir}/infra-aws-operator
+cp /usr/local/infra-aws-operator/configs/infra-aws-operator.service /etc/systemd/system/
+systemctl daemon-reload
+systemctl enable --now infra-aws-operator
+systemctl status infra-aws-operator
 ```
 
 ### demo
