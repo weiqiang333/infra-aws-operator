@@ -8,7 +8,6 @@ import (
 	"github.com/aws/aws-sdk-go/aws/credentials"
 	"github.com/aws/aws-sdk-go/aws/endpoints"
 	"github.com/aws/aws-sdk-go/aws/session"
-	"github.com/spf13/viper"
 )
 
 type AwsConnect struct {
@@ -19,20 +18,25 @@ func NewAwsConnect() *AwsConnect {
 	return &AwsConnect{}
 }
 
-func (a *AwsConnect) Conn() error {
-	costProfileName := viper.GetString("aws.credentials.cost-bill-name")
+func (a *AwsConnect) Conn(profileName string, regionName string) error {
+	if len(regionName) == 0 {
+		regionName = endpoints.ApSoutheast1RegionID
+	}
+	if len(profileName) == 0 {
+		profileName = "default"
+	}
 	sess, err := session.NewSession(&aws.Config{
-		Credentials: credentials.NewSharedCredentials("", costProfileName),
-		Region:      aws.String(endpoints.ApSoutheast1RegionID),
+		Credentials: credentials.NewSharedCredentials("", profileName),
+		Region:      aws.String(regionName),
 	})
 	if err != nil {
-		msg := fmt.Sprintf("Failed aws Conn session err: %s", err.Error())
+		msg := fmt.Sprintf("Failed aws Conn session err (profileName: %s, regionName: %s): %s", profileName, regionName, err.Error())
 		log.Println(msg)
 		return fmt.Errorf(msg)
 	}
 	_, err = sess.Config.Credentials.Get()
 	if err != nil {
-		msg := fmt.Sprintf("Failed aws Conn session get err: %s", err.Error())
+		msg := fmt.Sprintf("Failed aws Conn session get Credentials err (profileName: %s, regionName: %s): %s", profileName, regionName, err.Error())
 		log.Println(msg)
 		return fmt.Errorf(msg)
 	}
