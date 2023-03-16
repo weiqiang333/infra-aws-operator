@@ -22,6 +22,20 @@ func GetLastMonth1stDay() string {
 	return t.Format("2006-01-02")
 }
 
+// GetNowMonth1stDay 获取当月的1号时间
+func GetNowMonth1stDay() time.Time {
+	LastMonth := time.Now().Format("2006-01")
+	layout := "2006-01"
+	t, _ := time.Parse(layout, LastMonth)
+	return t
+}
+
+// GetNextMonth1stDay 获取下月的1号时间
+func GetNextMonth1stDay() time.Time {
+	t := GetNowMonth1stDay()
+	return t.AddDate(0, 1, 0)
+}
+
 // GetDateRange 获取日期范围日期 list. req: ("2022-10-02", "2022-12-02")
 func GetDateRange(dateStart, dateEnd string) []string {
 	var dateList []string

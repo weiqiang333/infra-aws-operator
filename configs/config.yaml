@@ -19,6 +19,7 @@ auth:
 aws:
   credentials:
     cost-bill-name: cost-bill
+    lightsail: lightsail
 
 databases:
   mysql:
@@ -43,6 +44,6 @@ telegram:
 # 定时任务, 执行周期
 job:
   # 获取账单，进行数据处理
-  get_billcost: "01 01 01 * * *"
+  get_billcost: "01 50 08 * * *"
   # 账单提醒. -> telegram. 支持 off. cost_call: off
   cost_call: "01 01 09 * * *"

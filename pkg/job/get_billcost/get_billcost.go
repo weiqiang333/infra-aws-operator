@@ -5,6 +5,8 @@ import (
 	"log"
 	"strconv"
 
+	"github.com/spf13/viper"
+
 	"gorm.io/gorm"
 
 	"infra-aws-operator/internal/databases/infrastructure"
@@ -24,8 +26,9 @@ func NewBillcostJob(dbCRUD *gorm.DB) *BillcostJob {
 
 func (j *BillcostJob) Run() {
 	log.Println("BillcostJob run start")
+	costProfileName := viper.GetString("aws.credentials.cost-bill-name")
 	conn := connect.NewAwsConnect()
-	if err := conn.Conn(); err != nil {
+	if err := conn.Conn(costProfileName, ""); err != nil {
 		log.Println("BillcostJob run aws conn error: ", err.Error())
 		log.Println("BillcostJob run done - fail")
 		return
