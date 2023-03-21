@@ -2,6 +2,7 @@ package get_lightsail
 
 import (
 	"fmt"
+	region2 "infra-aws-operator/pkg/utils/region"
 	"log"
 	"time"
 
@@ -26,10 +27,12 @@ func NewGetLightsail(sess *session.Session) *GetLightsail {
 }
 
 type Instances struct {
-	Name                        string    `json:"name"`           // 节点名称
-	State                       float64   `json:"state"`          //节点状态 0 异常 1 running
-	RegionsNames                string    `json:"regions_names"`  // 区域名称
-	BlueprintName               string    `json:"blueprint_name"` // 系统类型名称
+	Name                        string    `json:"name"`                     // 节点名称
+	State                       float64   `json:"state"`                    //节点状态 0 异常 1 running
+	Regions                     string    `json:"regions"`                  // 区域
+	RegionName                  string    `json:"region_name"`              // 区域名称
+	RegionNameAbbreviation      string    `json:"region_name_abbreviation"` // 区域名称简写
+	BlueprintName               string    `json:"blueprint_name"`           // 系统类型名称
 	CreatedAt                   time.Time `json:"created_at"`
 	CpuCount                    int64     `json:"cpu_count"`
 	RamSizeInGb                 float64   `json:"ram_size_in_gb"`                  // 内存大小
@@ -69,6 +72,7 @@ func (l *GetLightsail) GetInstances(region string) ([]Instances, error) {
 		log.Println(msg)
 		return instances, err
 	}
+	regions := region2.GetRegionsRelationshipComparison()
 	for _, i := range out.Instances {
 		var state float64
 		if *i.State.Name == "running" {
@@ -83,7 +87,9 @@ func (l *GetLightsail) GetInstances(region string) ([]Instances, error) {
 		instances = append(instances, Instances{
 			Name:                        *i.Name,
 			State:                       state,
-			RegionsNames:                region,
+			Regions:                     region,
+			RegionName:                  regions[region].RegionName,
+			RegionNameAbbreviation:      regions[region].RegionNameAbbreviation,
 			BlueprintName:               *i.BlueprintName,
 			CreatedAt:                   *i.CreatedAt,
 			CpuCount:                    *i.Hardware.CpuCount,
