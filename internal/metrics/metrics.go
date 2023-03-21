@@ -54,37 +54,37 @@ func NewExporter(dbC *gorm.DB) *Exporter {
 			Subsystem: "lightsail",
 			Name:      "instances",
 			Help:      "光帆实例信息状态",
-		}, []string{"name", "regions_names", "blueprint_name", "created_at", "cpu_count", "ram_size_in_gb", "private_ip_address", "public_ip_address", "gb_per_month_allocated_transfer"}),
+		}, []string{"name", "regions", "region_name", "region_name_abbreviation", "blueprint_name", "created_at", "cpu_count", "ram_size_in_gb", "private_ip_address", "public_ip_address", "gb_per_month_allocated_transfer"}),
 		LightsailInstancesGbPerMonthAllocatedTransfer: prometheus.NewGaugeVec(prometheus.GaugeOpts{
 			Namespace: namespace,
 			Subsystem: "lightsail",
 			Name:      "gb_per_month_allocated_transfer",
 			Help:      "光帆实例流量包免费流量 GB",
-		}, []string{"name", "regions_names", "public_ip_address"}),
+		}, []string{"name", "regions", "region_name", "region_name_abbreviation", "public_ip_address"}),
 		LightsailInstancesGbMonthNetworkIn: prometheus.NewGaugeVec(prometheus.GaugeOpts{
 			Namespace: namespace,
 			Subsystem: "lightsail",
 			Name:      "gb_month_network_in",
 			Help:      "光帆实例当月已使用传入流量 GB",
-		}, []string{"name", "regions_names", "public_ip_address"}),
+		}, []string{"name", "regions", "region_name", "region_name_abbreviation", "public_ip_address"}),
 		LightsailInstancesGbMonthNetworkOut: prometheus.NewGaugeVec(prometheus.GaugeOpts{
 			Namespace: namespace,
 			Subsystem: "lightsail",
 			Name:      "gb_month_network_out",
 			Help:      "光帆实例当月已使用传出流量 GB",
-		}, []string{"name", "regions_names", "public_ip_address"}),
+		}, []string{"name", "regions", "region_name", "region_name_abbreviation", "public_ip_address"}),
 		LightsailInstancesGbUseMonthNetwork: prometheus.NewGaugeVec(prometheus.GaugeOpts{
 			Namespace: namespace,
 			Subsystem: "lightsail",
 			Name:      "gb_use_month_network",
 			Help:      "光帆实例当月流量使用 sum GB",
-		}, []string{"name", "regions_names", "public_ip_address"}),
+		}, []string{"name", "regions", "region_name", "region_name_abbreviation", "public_ip_address"}),
 		LightsailInstancesGbRemainMonthNetwork: prometheus.NewGaugeVec(prometheus.GaugeOpts{
 			Namespace: namespace,
 			Subsystem: "lightsail",
 			Name:      "gb_remain_month_network",
 			Help:      "光帆实例当月流量套餐剩余 sum GB",
-		}, []string{"name", "regions_names", "public_ip_address"}),
+		}, []string{"name", "regions", "region_name", "region_name_abbreviation", "public_ip_address"}),
 	}
 }
 func (e *Exporter) Describe(ch chan<- *prometheus.Desc) {
@@ -115,14 +115,14 @@ func (e *Exporter) Collect(ch chan<- prometheus.Metric) {
 	if err == nil {
 		for _, i := range instances {
 			e.LightsailInstances.WithLabelValues(
-				i.Name, i.RegionsNames, i.BlueprintName, i.CreatedAt.String(), strconv.FormatInt(i.CpuCount, 10), fmt.Sprintf("%f", i.RamSizeInGb),
-				i.PrivateIpAddress, i.PublicIpAddress, fmt.Sprintf("%f", i.GbPerMonthAllocatedTransfer),
+				i.Name, i.Regions, i.RegionName, i.RegionNameAbbreviation, i.BlueprintName, i.CreatedAt.String(), strconv.FormatInt(i.CpuCount, 10),
+				fmt.Sprintf("%f", i.RamSizeInGb), i.PrivateIpAddress, i.PublicIpAddress, fmt.Sprintf("%f", i.GbPerMonthAllocatedTransfer),
 			).Set(i.State)
-			e.LightsailInstancesGbPerMonthAllocatedTransfer.WithLabelValues(i.Name, i.RegionsNames, i.PublicIpAddress).Set(i.GbPerMonthAllocatedTransfer)
-			e.LightsailInstancesGbMonthNetworkIn.WithLabelValues(i.Name, i.RegionsNames, i.PublicIpAddress).Set(i.GbMonthNetworkIn)
-			e.LightsailInstancesGbMonthNetworkOut.WithLabelValues(i.Name, i.RegionsNames, i.PublicIpAddress).Set(i.GbMonthNetworkOut)
-			e.LightsailInstancesGbUseMonthNetwork.WithLabelValues(i.Name, i.RegionsNames, i.PublicIpAddress).Set(i.GbUseMonthNetwork)
-			e.LightsailInstancesGbRemainMonthNetwork.WithLabelValues(i.Name, i.RegionsNames, i.PublicIpAddress).Set(i.GbRemainMonthNetwork)
+			e.LightsailInstancesGbPerMonthAllocatedTransfer.WithLabelValues(i.Name, i.Regions, i.RegionName, i.RegionNameAbbreviation, i.PublicIpAddress).Set(i.GbPerMonthAllocatedTransfer)
+			e.LightsailInstancesGbMonthNetworkIn.WithLabelValues(i.Name, i.Regions, i.RegionName, i.RegionNameAbbreviation, i.PublicIpAddress).Set(i.GbMonthNetworkIn)
+			e.LightsailInstancesGbMonthNetworkOut.WithLabelValues(i.Name, i.Regions, i.RegionName, i.RegionNameAbbreviation, i.PublicIpAddress).Set(i.GbMonthNetworkOut)
+			e.LightsailInstancesGbUseMonthNetwork.WithLabelValues(i.Name, i.Regions, i.RegionName, i.RegionNameAbbreviation, i.PublicIpAddress).Set(i.GbUseMonthNetwork)
+			e.LightsailInstancesGbRemainMonthNetwork.WithLabelValues(i.Name, i.Regions, i.RegionName, i.RegionNameAbbreviation, i.PublicIpAddress).Set(i.GbRemainMonthNetwork)
 		}
 	}
 

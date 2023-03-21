@@ -78,38 +78,38 @@ aws_cost_billcost_service_by_month{date_end="2022-12-01",date_start="2022-11-01"
 ...
 # HELP aws_lightsail_gb_month_network_in 光帆实例当月已使用传入流量 GB
 # TYPE aws_lightsail_gb_month_network_in gauge
-aws_lightsail_gb_month_network_in{name="aus-sa-1",public_ip_address="3.3.3.3",regions_names="ap-southeast-2"} 11.258531582541764
-aws_lightsail_gb_month_network_in{name="aus-sa-2",public_ip_address="3.3.3.3",regions_names="ap-southeast-2"} 17.0006951848045
-aws_lightsail_gb_month_network_in{name="aus-sa-3",public_ip_address="3.3.3.3",regions_names="ap-southeast-2"} 46.21729747578502
+aws_lightsail_gb_month_network_in{name="aus-sa-1",public_ip_address="3.3.3.3",regions="ap-southeast-2"} 11.258531582541764
+aws_lightsail_gb_month_network_in{name="aus-sa-2",public_ip_address="3.3.3.3",regions="ap-southeast-2"} 17.0006951848045
+aws_lightsail_gb_month_network_in{name="aus-sa-3",public_ip_address="3.3.3.3",regions="ap-southeast-2"} 46.21729747578502
 ...
 # HELP aws_lightsail_gb_month_network_out 光帆实例当月已使用传出流量 GB
 # TYPE aws_lightsail_gb_month_network_out gauge
-aws_lightsail_gb_month_network_out{name="aus-sa-1",public_ip_address="3.3.3.3",regions_names="ap-southeast-2"} 11.034040275029838
-aws_lightsail_gb_month_network_out{name="aus-sa-2",public_ip_address="3.3.3.3",regions_names="ap-southeast-2"} 16.252381362952292
-aws_lightsail_gb_month_network_out{name="aus-sa-3",public_ip_address="3.3.3.3",regions_names="ap-southeast-2"} 44.11481489613652
+aws_lightsail_gb_month_network_out{name="aus-sa-1",public_ip_address="3.3.3.3",regions="ap-southeast-2"} 11.034040275029838
+aws_lightsail_gb_month_network_out{name="aus-sa-2",public_ip_address="3.3.3.3",regions="ap-southeast-2"} 16.252381362952292
+aws_lightsail_gb_month_network_out{name="aus-sa-3",public_ip_address="3.3.3.3",regions="ap-southeast-2"} 44.11481489613652
 ...
 # HELP aws_lightsail_gb_per_month_allocated_transfer 光帆实例流量包免费流量 GB
 # TYPE aws_lightsail_gb_per_month_allocated_transfer gauge
-aws_lightsail_gb_per_month_allocated_transfer{name="aus-sa-1",public_ip_address="3.3.3.3",regions_names="ap-southeast-2"} 1024
-aws_lightsail_gb_per_month_allocated_transfer{name="aus-sa-2",public_ip_address="3.3.3.3",regions_names="ap-southeast-2"} 1024
-aws_lightsail_gb_per_month_allocated_transfer{name="aus-sa-3",public_ip_address="3.3.3.3",regions_names="ap-southeast-2"} 1024
+aws_lightsail_gb_per_month_allocated_transfer{name="aus-sa-1",public_ip_address="3.3.3.3",regions="ap-southeast-2"} 1024
+aws_lightsail_gb_per_month_allocated_transfer{name="aus-sa-2",public_ip_address="3.3.3.3",regions="ap-southeast-2"} 1024
+aws_lightsail_gb_per_month_allocated_transfer{name="aus-sa-3",public_ip_address="3.3.3.3",regions="ap-southeast-2"} 1024
 ...
 # HELP aws_lightsail_gb_remain_month_network 光帆实例当月流量套餐剩余 sum GB
 # TYPE aws_lightsail_gb_remain_month_network gauge
-aws_lightsail_gb_remain_month_network{name="aus-sa-1",public_ip_address="3.3.3.3",regions_names="ap-southeast-2"} 1001.7074281424284
-aws_lightsail_gb_remain_month_network{name="aus-sa-2",public_ip_address="3.3.3.3",regions_names="ap-southeast-2"} 990.7469234522432
-aws_lightsail_gb_remain_month_network{name="aus-sa-3",public_ip_address="3.3.3.3",regions_names="ap-southeast-2"} 933.6678876280785
+aws_lightsail_gb_remain_month_network{name="aus-sa-1",public_ip_address="3.3.3.3",regions="ap-southeast-2"} 1001.7074281424284
+aws_lightsail_gb_remain_month_network{name="aus-sa-2",public_ip_address="3.3.3.3",regions="ap-southeast-2"} 990.7469234522432
+aws_lightsail_gb_remain_month_network{name="aus-sa-3",public_ip_address="3.3.3.3",regions="ap-southeast-2"} 933.6678876280785
 ...
 # HELP aws_lightsail_gb_use_month_network 光帆实例当月流量使用 sum GB
 # TYPE aws_lightsail_gb_use_month_network gauge
-aws_lightsail_gb_use_month_network{name="aus-sa-1",public_ip_address="3.3.3.3",regions_names="ap-southeast-2"} 22.292571857571602
-aws_lightsail_gb_use_month_network{name="aus-sa-2",public_ip_address="3.3.3.3",regions_names="ap-southeast-2"} 33.25307654775679
-aws_lightsail_gb_use_month_network{name="aus-sa-3",public_ip_address="3.3.3.3",regions_names="ap-southeast-2"} 90.33211237192154
+aws_lightsail_gb_use_month_network{name="aus-sa-1",public_ip_address="3.3.3.3",regions="ap-southeast-2"} 22.292571857571602
+aws_lightsail_gb_use_month_network{name="aus-sa-2",public_ip_address="3.3.3.3",regions="ap-southeast-2"} 33.25307654775679
+aws_lightsail_gb_use_month_network{name="aus-sa-3",public_ip_address="3.3.3.3",regions="ap-southeast-2"} 90.33211237192154
 ...
 # HELP aws_lightsail_instances 光帆实例信息状态
 # TYPE aws_lightsail_instances gauge
-aws_lightsail_instances{blueprint_name="Debian",cpu_count="1",created_at="2022-11-29 06:29:03.553 +0000 UTC",gb_per_month_allocated_transfer="2048.000000",name="sgp-2",private_ip_address="3.3.3.3",public_ip_address="3.3.3.3",ram_size_in_gb="1.000000",regions_names="ap-southeast-1"} 1
-aws_lightsail_instances{blueprint_name="Debian",cpu_count="1",created_at="2022-11-29 06:37:45.32 +0000 UTC",gb_per_month_allocated_transfer="2048.000000",name="kr-s-1",private_ip_address="3.3.3.3",public_ip_address="3.3.3.3",ram_size_in_gb="1.000000",regions_names="ap-northeast-2"} 1
-aws_lightsail_instances{blueprint_name="Debian",cpu_count="1",created_at="2022-11-29 06:41:04.499 +0000 UTC",gb_per_month_allocated_transfer="2048.000000",name="jp-tk-31",private_ip_address="3.3.3.3",public_ip_address="3.3.3.3",ram_size_in_gb="1.000000",regions_names="ap-northeast-1"} 1
+aws_lightsail_instances{blueprint_name="Debian",cpu_count="1",created_at="2022-11-29 06:29:03.553 +0000 UTC",gb_per_month_allocated_transfer="2048.000000",name="sgp-2",private_ip_address="3.3.3.3",public_ip_address="3.3.3.3",ram_size_in_gb="1.000000",regions="ap-southeast-1"} 1
+aws_lightsail_instances{blueprint_name="Debian",cpu_count="1",created_at="2022-11-29 06:37:45.32 +0000 UTC",gb_per_month_allocated_transfer="2048.000000",name="kr-s-1",private_ip_address="3.3.3.3",public_ip_address="3.3.3.3",ram_size_in_gb="1.000000",regions="ap-northeast-2"} 1
+aws_lightsail_instances{blueprint_name="Debian",cpu_count="1",created_at="2022-11-29 06:41:04.499 +0000 UTC",gb_per_month_allocated_transfer="2048.000000",name="jp-tk-31",private_ip_address="3.3.3.3",public_ip_address="3.3.3.3",ram_size_in_gb="1.000000",regions="ap-northeast-1"} 1
 ...
 ```
