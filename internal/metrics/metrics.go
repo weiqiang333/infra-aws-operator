@@ -101,6 +101,12 @@ func (e *Exporter) Describe(ch chan<- *prometheus.Desc) {
 func (e *Exporter) Collect(ch chan<- prometheus.Metric) {
 	e.BillCostServiceByDay.Reset()
 	e.BillCostServiceByMonthly.Reset()
+	e.LightsailInstances.Reset()
+	e.LightsailInstancesGbPerMonthAllocatedTransfer.Reset()
+	e.LightsailInstancesGbMonthNetworkIn.Reset()
+	e.LightsailInstancesGbMonthNetworkOut.Reset()
+	e.LightsailInstancesGbUseMonthNetwork.Reset()
+	e.LightsailInstancesGbRemainMonthNetwork.Reset()
 
 	for _, res := range getBillCostServiceDay(e.DBC) {
 		e.BillCostServiceByDay.WithLabelValues(res.DateStart, res.DateEnd, res.ServiceName).Set(res.BlendedCostUSD)
